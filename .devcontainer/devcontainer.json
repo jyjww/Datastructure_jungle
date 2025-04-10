@@ -1,6 +1,6 @@
 {
     "name": "C Development Container",
-    "dockerFile": "Dockerfile",
+    "image": "jungle-x86",
     "remoteUser": "jungle",
     "customizations": {
         "vscode": {
