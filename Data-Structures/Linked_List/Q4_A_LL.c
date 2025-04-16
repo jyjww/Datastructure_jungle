@@ -87,6 +87,41 @@ int main()
 void moveEvenItemsToBack(LinkedList *ll)
 {
 	/* add your code here */
+	if (ll == NULL || ll->size == 0)
+		return;
+
+	ListNode *tail = ll->head;
+	int Osize = ll->size;
+
+	// 리스트의 끝까지 순회
+	while (tail->next != NULL){
+		tail = tail->next;
+	}
+
+	ListNode *cur = ll->head;
+	int idx = 0;
+	ListNode *Otail = tail;
+
+	for (int i = 0; i < Osize; i++){
+		if (cur->item % 2 == 0){
+			int value = cur->item;
+
+			cur = cur-> next;
+			removeNode(ll, idx);
+			
+			// 끝에 넣을 크기만큼 메모리 증가
+			tail->next = malloc(sizeof(ListNode));
+			// 테일을 증기시키고, 값 넣고, 그 다음값은 NULL과 연결해줌
+			tail = tail->next;
+			tail->item = value;
+			tail->next = NULL;
+
+			ll->size++;
+		}else{
+			cur = cur->next;
+			idx++;
+		}
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

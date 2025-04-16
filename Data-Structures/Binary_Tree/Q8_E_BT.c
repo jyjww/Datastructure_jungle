@@ -100,9 +100,26 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
+int getDpth(BTNode *node) {
+    if (node == NULL)
+        return -1;
+    int left = getDpth (node->left);
+    int right = getDpth (node->right);
+    return (left > right ? left : right) + 1;
+}
+
 int hasGreatGrandchild(BTNode *node)
 {
 	/* add your code here */
+    if (node == NULL)
+        return 0;
+    
+    if (getDpth(node) >= 3){
+        printf("%d\n", node->item);
+    }
+    // 재귀로 정답이 여러개인 경우, 여러개를 출력하도록 함. - 이러면 안되는데, 사이즈를 알 수 없고, 스택을 뒤집기는 너무 귀찮음.
+    hasGreatGrandchild(node->left);
+    hasGreatGrandchild(node->right);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

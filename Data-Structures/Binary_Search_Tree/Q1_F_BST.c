@@ -90,37 +90,69 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
+void printQueue (QueueNode *head){
+	QueueNode *cur = head;
+	while (cur != NULL){
+		printf("%d ", cur->data->item);
+		cur = cur->nextPtr;
+	}
+	printf("\n");
+}
+
 
 void levelOrderTraversal(BSTNode* root)
 {
 
     /* add your code here */
+
+	// 큐의 head와 tail 포인터 초기화
+	QueueNode *head = NULL;
+	QueueNode *tail = NULL;
+
+	// 트리의 시작점인 루트를 큐에 넣는다
+    // 레벨 순서 순회는 항상 루트부터 시작하므로 root를 enqueue
+	enqueue(&head, &tail, root);
+
+	// 큐가 빌때까지 반복
+	while (!isEmpty(head)){
+		// 큐에서 맨 앞 노드를 꺼낸다 (방문할 노드)
+		BSTNode *cur = dequeue(&head, &tail);
+		// 현재 노드의 값을 출력 (방문 처리)
+		printf("%d ", cur->item);
+		// 현재 노드의 왼쪽 자식이 있다면 큐에 추가
+		if(cur->left != NULL)
+			enqueue(&head, &tail, cur->left);
+		// 현재 노드의 오른쪽 자식이 있다면 큐에 추가
+		if(cur->right != NULL)
+			enqueue(&head, &tail, cur->right);
+	}
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void insertBSTNode(BSTNode **node, int value){
-	if (*node == NULL)
+	if (*node == NULL)   // 현재 노드가 비어있으면 넣을자리
 	{
-		*node = malloc(sizeof(BSTNode));
+		*node = malloc(sizeof(BSTNode));   // 새 노드 동적 할당
 
-		if (*node != NULL) {
-			(*node)->item = value;
-			(*node)->left = NULL;
+		if (*node != NULL) {        // malloc에 성공하면
+			(*node)->item = value;  // 노드의 item 값 세팅
+			(*node)->left = NULL;   // 왼쪽, 오른쪽 자식을 초기화한다
 			(*node)->right = NULL;
 		}
 	}
-	else
+	else  // 현재 노드가 있으면 (어디로 갈까?)
 	{
-		if (value < (*node)->item)
+		if (value < (*node)->item)   // 값이 루트보다 작으면 왼쪽에 넣음
 		{
-			insertBSTNode(&((*node)->left), value);
+			insertBSTNode(&((*node)->left), value);  // 재귀
 		}
-		else if (value >(*node)->item)
+		else if (value >(*node)->item)  // 값이 루트보다 크면 오른쪽에 넣음
 		{
 			insertBSTNode(&((*node)->right), value);
 		}
-		else
+		else        // 값이 같으면 아무것도 안함 (중복 방지)
 			return;
 	}
 }

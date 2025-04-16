@@ -78,7 +78,7 @@ int main()
 			printList(&ll2);
 			break;
 		case 3:
-		    printf("The resulting linked lists after merging the given linked list are:\n");
+			printf("The resulting linked lists after merging the given linked list are:\n");
 			alternateMergeLinkedList(&ll1, &ll2); // You need to code this function
 			printf("The resulting linked list 1: ");
 			printList(&ll1);
@@ -103,8 +103,38 @@ int main()
 
 void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 {
-    /* add your code here */
-}
+    // 왓다리 갓다리 하면서 노드 연결을 바꿈 -> 기존 연결을 어떻게 끊지?? 이게 이해가 안가.
+	// 어떻게? 헤드의 넥스트를 헤드로 만들고, 헤드를 널
+	// 원하는 곳 앞뒤에 연결을 lst2 의 헤드랑 연결되도록 바꾼다. lst1 -> lst2 -> lst1 이렇게
+	// 그리고 둘중에 하나가 null 값이면, 남은애는 그냥 다 출력
+	ListNode *lst1, *lst2;
+	ListNode *nd1 = ll1->head, *nd2 = ll2->head;
+	ListNode *lastnode; 
+
+	while (nd1 != NULL && nd2 != NULL){
+		// 현재 노드의 다음 노드를 미리 저장
+		ListNode *next1 = nd1->next;
+		ListNode *next2 = nd2->next;
+
+		// 현재 리스트1의 노드를 다음 리스트2의 현재 노드로 연결
+		nd1->next = nd2;
+		lastnode = nd2;
+		if (next1 == NULL)
+			break;
+		
+		// 리스트 2 현재 노드를 리스트 1의 다음 노드로 연결
+		nd2->next = next1;
+		lastnode = next1;
+
+		nd1 = next1;
+		nd2 = next2;
+	}
+
+	if (nd2 != NULL){
+	}
+	// ll2->head = NULL;
+	// ll2->size = 0;
+}	
 
 ///////////////////////////////////////////////////////////////////////////////////
 

@@ -84,9 +84,42 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
+// 값을 순회하면서, 홀수인 경우는, 뒤로 이동한다. 
 void moveOddItemsToBack(LinkedList *ll)
 {
 	/* add your code here */
+	if (ll == NULL || ll->size == 0)
+		return;
+
+	ListNode *tail = ll->head;
+	int Osize = ll->size; 
+
+	while(tail->next != NULL){
+		tail = tail->next;
+	}
+
+	ListNode *cur = ll->head;
+	int idx = 0;
+	ListNode *Otail = tail;
+
+	for (int i = 0; i < Osize; i++){
+		if (cur->item % 2 != 0){
+			int value = cur->item;
+
+			cur = cur-> next;
+			removeNode(ll, idx);
+
+			tail->next = malloc(sizeof(ListNode));
+			tail = tail->next;
+			tail->item = value;
+			tail->next = NULL;
+
+			ll->size++;
+		}else{
+			cur = cur->next;
+			idx++;
+		}
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

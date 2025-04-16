@@ -90,7 +90,26 @@ int main()
 
 void inOrderTraversal(BSTNode *root)
 {
-	 /* add your code here */
+	/* add your code here */
+	// 왼 루트 오
+	// 왼쪽 맨 끝까지가서, 루트보고, 오른쪽가고. 루트가 다시 왼쪽이 되고 똑같이
+
+	Stack stk;
+	stk.top = NULL;
+
+	BSTNode *node = root;
+
+	while(1){
+		while(node != NULL){
+			push(&stk, node);
+			node = node->left;
+		}
+		if(isEmpty(&stk))
+			break;
+		node = pop(&stk);
+		printf("%d ", node->item);
+		node = node->right;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////

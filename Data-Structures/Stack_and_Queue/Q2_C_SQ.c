@@ -114,11 +114,49 @@ int main()
 void createStackFromLinkedList(LinkedList *ll, Stack *s)
 {
     /* add your code here */
+	removeAllItemsFromStack(s);
+
+	// 원본 사이즈 크기의 임시 배열을 생성함 : 그냥 넣으면 거꾸로 들어가서 반대로 넣기 위함
+	int Osize = ll->size;
+	int *tempArr = malloc(Osize * sizeof(int));
+
+	ListNode *cur = ll->head;
+	int idx = 0;
+
+	// 원본 리스트를 순회하면서 인덱스를 부여함
+	while (cur != NULL){
+		tempArr[idx++] = cur->item;
+		cur = cur->next;
+	}
+	
+	// 지정한 인덱스를 역방향으로 순회하면서 푸시
+	for(int i = Osize-1; i >= 0; i--){
+		push(s, tempArr[i]);
+	}
+
+	free(tempArr);
 }
 
 void removeEvenValues(Stack *s)
 {
 	/* add your code here */
+	// 임시 스택을 만들고
+	Stack tempstack;
+	tempstack.ll.head = NULL;
+	tempstack.ll.size = 0; 
+
+	// 원래 스택에서 팝하면서 홀수만 임시 스택에 저장
+	while (s->ll.size > 0){
+		int value = pop(s);
+		if (value % 2 != 0){
+			push(&tempstack, value);
+		}
+	}
+	// 임시 스택에서 다시 원래 스택으로 복사
+	while (tempstack.ll.size > 0){
+		int value = pop(&tempstack);
+		push(s, value);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////

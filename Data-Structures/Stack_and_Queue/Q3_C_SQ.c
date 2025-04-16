@@ -13,12 +13,12 @@ Purpose: Implementing the required functions for Question 3 */
 //////////////////////////////////   linked list /////////////////////////////////
 
 typedef struct _listnode{
-   int item;
+	int item;
    struct _listnode *next;
 } ListNode;
 
 typedef struct _linkedlist{
-   int size;
+	int size;
    ListNode *head;
    ListNode *tail;
 } LinkedList;
@@ -103,33 +103,56 @@ int main()
 
 int isStackPairwiseConsecutive(Stack *s)
 {
-  /* add your code here */
+	/* add your code here */
+	// 내 바로 옆 숫자가 나보다 1클때, 연속적이다. 
+	// 만약 전체 리스트가 홀수인경우고 1보다 크면, 하나로 남는 요소는 무조건 참이라 치고 나머지를 비교.
+
+	int Osize = s->ll.size;
+
+	if (Osize == 1)
+		return 1;
+
+	int *tempArr = malloc(Osize * sizeof(int));
+	int idx = 0;
+
+	while (!isEmptyStack(s)){
+		tempArr[idx++] = pop(s); 
+	}
+
+	for (int i = Osize-1; i >0; i-= 2){
+		if(abs(tempArr[i]-tempArr[i-1]) != 1 ){
+			free(tempArr);
+			return 0;
+		}
+		return 1;
+	}
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////////
 
 void push(Stack *s, int item){
-   insertNode(&(s->ll), 0, item);
+	insertNode(&(s->ll), 0, item);
 }
 
 int pop(Stack *s){
-   int item;
-   if(!isEmptyStack(s)){
+	int item;
+	if(!isEmptyStack(s)){
     item = ((s->ll).head)->item;
     removeNode(&(s->ll), 0);
     return item;
-   }
+	}
     return INT_MIN;
 }
 
 int peek(Stack *s){
-   return ((s->ll).head)->item;
+	return ((s->ll).head)->item;
 }
 
 int isEmptyStack(Stack *s){
-   if ((s->ll).size == 0)
-      return 1;
-   return 0;
+	if ((s->ll).size == 0)
+		return 1;
+	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

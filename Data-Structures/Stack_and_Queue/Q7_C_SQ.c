@@ -105,6 +105,38 @@ int main()
 int balanced(char *expression)
 {
 /* add your code here */
+// 여는 괄호에 push
+// 닫는 괄호면 top을 보고 짝이 맞으면 팝
+// 닫는 괄호에서 짝이 안맞으면 push
+	Stack s;
+	s.ll.head = NULL;
+	s.ll.size = 0;
+	while (*expression != '\0'){
+		if (*expression == '{' || *expression == '[' ||
+		*expression == '('){
+			push(&s, *expression);
+		}
+		else if (*expression == '}' || *expression == ']' ||
+			*expression == ')')
+		{
+			if (!isEmptyStack){
+				push(&s, *expression);
+			}else{
+				char top = pop(&s);
+				char open = top;
+				char close = *expression;
+				if (!((open == '{' && close == '}') || 
+					(open == '[' && close == ']') || 
+					(open == '(' && close == ')')))
+					push(&s, *expression);
+			}
+		}
+		expression++;
+	}
+	if (!isEmptyStack(&s))
+		return 1;
+	else
+		return 0;
 }
 
 ////////////////////////////////////////////////////////////

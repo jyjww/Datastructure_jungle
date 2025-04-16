@@ -1,15 +1,42 @@
+// {
+//     "version": "2.0.0",
+//     "tasks": [
+//         {
+//             "type": "shell",
+//             "label": "C/C++: gcc build active file",
+//             "command": "/usr/bin/gcc",
+//             "args": [
+//                 "-g",
+//                 "${file}",
+//                 "-o",
+//                 "${fileDirname}/${fileBasenameNoExtension}"
+//             ],
+//             "options": {
+//                 "cwd": "${fileDirname}"
+//             },
+//             "problemMatcher": [
+//                 "$gcc"
+//             ],
+//             "group": {
+//                 "kind": "build",
+//                 "isDefault": true
+//             },
+//             "detail": "컴파일러: /usr/bin/gcc"
+//         }
+//     ]
+// }
+
+// cmd + shift + B 로 자동 빌드 (C/C++ Extension Pack 사용을 위한 tasks.json)
 {
     "version": "2.0.0",
     "tasks": [
         {
             "type": "shell",
-            "label": "C/C++: gcc build active file",
-            "command": "/usr/bin/gcc",
+            "label": "C/C++: gcc build and run active file",
+            "command": "/bin/bash",
             "args": [
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "-c",
+                "/usr/bin/gcc -g ${file} -o ${fileDirname}/${fileBasenameNoExtension} -lm && ${fileDirname}/${fileBasenameNoExtension}"
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -21,7 +48,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "detail": "컴파일러: /usr/bin/gcc"
+            "detail": "컴파일 후 실행까지 자동으로"
         }
     ]
 }
