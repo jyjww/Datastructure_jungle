@@ -85,7 +85,7 @@ int main()
 			printList(&(s.ll));
 			break;
 		case 2:
-		    printf("Enter an integer value in stack to remove values until that value: ");
+			printf("Enter an integer value in stack to remove values until that value: ");
 			scanf("%d", &i);
 			removeUntil(&s,i); // You need to code this function
 			printf("The resulting stack after removing values until the given value: ");
@@ -112,6 +112,55 @@ int main()
 void removeUntil(Stack *s, int value)
 {
 /* add your code here */
+
+	// 스택 자체를 뒤집고 시작해야 할듯?
+	// 값이 스택에 있는건지 부터 확인. 없으면, 리턴
+	// 값이 있으면, 어디에 있는지 확인해야함 -> 앞에서 순회하면서 인덱스를 넣음
+	// for문으로 그 인덱스까지 팝. 
+	// 만약 동일한 숫자가 두번 등장한다? 인덱스가 가장 큰거까지 팝
+
+	ListNode *cur = s->ll.head;
+	int Osize = s->ll.size;
+
+	// 임시 배열 할당하고 인덱스 값을 넣음
+	int *tempArr = malloc (Osize * sizeof(int));
+	int idx = 0;
+	
+	while (cur != NULL){
+		tempArr[idx++] = cur->item;
+		cur = cur->next;
+	}
+	//printList(&(s->ll));
+
+	// 임시 배열에 스택의 값을 index값을 부여해서 넣음
+	ListNode *cur2 = s->ll.head;
+	idx = 0;
+	while (cur2 != NULL){
+		tempArr[idx++] = cur2->item;
+		cur2 = cur2->next;
+	}
+
+	// pop할 값의 위치를 찾음. 동일한 인덱스가 있다면 가장 멀리있는 것으로 갱신.
+	int lastidx = -1;
+	for (int i = 0 ; i < Osize; i++){
+		//printf("tempArr[%d] = %d\n", i, tempArr[i]);
+		if(tempArr[i] == value){
+			if (lastidx < i)
+				lastidx = i;
+		}
+	}
+
+	// for 문에서 pop할 값을 못찾은 경우. 
+	if (lastidx == -1){
+		free(tempArr);
+		return;
+	}
+	// 배열을 거꾸로 돌면서 원하는 위치까지 역순으로 팝
+	for (int i = lastidx-1 ; i >= 0; i--){
+		pop(s);
+	}
+	// 메모리 제거
+	free(tempArr);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

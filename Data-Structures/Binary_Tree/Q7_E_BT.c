@@ -99,10 +99,23 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
+// 이거를 왜 생각을 못했지?? 흠...
+int smallestValue(BTNode *node){
+    // base : 큰 값 임의 지정해서 min 값 갱신되게 세팅
+    if (node == NULL)
+        return 1000000;
+    // 순회하면서 왼쪽 오른쪽 비교하면서, min 값을 갱신
+    int left = smallestValue(node->left);
+    int right = smallestValue(node->right);
 
-int smallestValue(BTNode *node)
-{
-	/* add your code here */
+    int min = (left > right ? right : left);
+    
+    // 지금보다 min 값이 작으면 min값을 리턴하고, 아니면 지금값.
+    if (min < node->item){
+        return min;
+    }else{
+        return node->item;
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////

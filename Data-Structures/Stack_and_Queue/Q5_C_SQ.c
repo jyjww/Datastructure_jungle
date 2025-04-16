@@ -110,6 +110,17 @@ int main()
 void recursiveReverse(Queue *q)
 {
 /* add your code here */
+
+	// 큐가 비었을때 리턴. 큐에서 하나 꺼내고, 나머지 큐를 재귀로 뒤집는다. 꺼낸값을 다시 큐에 넣는다. 
+
+	if(isEmptyQueue(q))
+		return;
+
+	int value = dequeue(q);
+	recursiveReverse(q);
+
+	enqueue(q, value);
+	
 }
 
 //////////////////////////////////////////////////////////////////
