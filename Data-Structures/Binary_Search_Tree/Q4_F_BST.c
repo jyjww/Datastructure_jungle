@@ -91,7 +91,36 @@ int main()
 
 void postOrderIterativeS1(BSTNode *root)
 {
-	 /* add your code here */
+    if (root == NULL) return;
+
+    Stack stk;
+    stk.top = NULL;
+
+    BSTNode *node = root;
+    BSTNode *visited = NULL;
+
+    while ((node != NULL) || (!isEmpty(&stk))){
+		// 왼쪽 서브트리를 따라 계속 내려간다
+		if (node != NULL){
+			push(&stk, node);
+			node = node->left;
+		}else{
+			// 스택의 탑 노드 확인
+			BSTNode *peekR = peek(&stk);
+
+			// 오른쪽 자식이 존재하고 아직 방문하지 않았다면
+			if(peekR->right != NULL && visited != peekR->right){
+				node = peekR->right;
+			}else{
+				// 오른쪽 자식이 없거나 이미 방문했다면 현재 노드 처리
+				pop(&stk);
+				printf("%d ",peekR->item);
+				visited = peekR;
+			}
+		}
+	}
+
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -108,7 +137,8 @@ void insertBSTNode(BSTNode **node, int value){
 		}
 	}
 	else
-	{
+	{	
+		// 재귀 순서에 따라, 왼쪽 노드부터 삽입됨. 그러니까, 왼쪽과 오른쪽을 번갈아서 넣게 된다면, 트리 구조 자체가 바뀌어서 답이 안나온다. 
 		if (value < (*node)->item)
 		{
 			insertBSTNode(&((*node)->left), value);
