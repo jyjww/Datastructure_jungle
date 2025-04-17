@@ -91,7 +91,42 @@ int main()
 
 void postOrderIterativeS2(BSTNode *root)
 {
-	 /* add your code here */
+	/* add your code here */
+	// 스택 두개를 사용해서 후위 순회를 구현해라
+	// 스택1 : 노드를 팝. 스택2에 푸시. 노드의 왼쪽 자식이 있다면 스택1에 푸시, 오른쪽 자식도 스택1에 푸시
+	// 스택 2 : 후위 순서로 출력. 스택2가 빌때까지
+	if (root == NULL)
+		return;
+
+	Stack stk1;
+	Stack stk2;
+	stk1.top = NULL;
+	stk2.top = NULL;
+
+	push(&stk1, root);
+	BSTNode *cur = root;
+
+	while (!isEmpty(&stk1)){
+		// 루트를 기준으로 팝
+		BSTNode *node = pop(&stk1);
+		printf("pop: %d\n ", node->item);
+		push(&stk2, node);	// 스택에 들어간 역순으로, 스택2에 푸시
+		// 왼쪽 자식을 보고 스택1 푸시
+		if (node->left != NULL){
+			push(&stk1, node->left);
+			printf("push: %d\n ", node->left->item);
+		}
+		// 오른쪽 자식을 보고 스택2에 푸시
+		if (node->right != NULL){
+			push(&stk1, node->right);
+			printf("push: %d\n ", node->right->item);
+		}
+	}
+	// 스택2는 출력용
+	while(!isEmpty(&stk2)){
+		BSTNode *ans = pop(&stk2);
+		//printf("%d ", ans->item);
+	}
 }
 
 /* Given a binary search tree and a key, this function
